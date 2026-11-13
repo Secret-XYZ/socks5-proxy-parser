@@ -1,5 +1,3 @@
-[14.11.2026 2:25] shqcc | design • coding: <div align="center">
-
 # 🧦 SOCKS5 Parser
 
 Автоматический сборщик бесплатных SOCKS5 прокси
