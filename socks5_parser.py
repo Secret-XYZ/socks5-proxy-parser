@@ -1,13 +1,3 @@
-#!/usr/bin/env python3
-"""
-Парсер бесплатных SOCKS5 прокси.
-Каждые 15 минут скачивает списки из открытых источников, убирает дубли,
-(опционально) проверяет живые и сохраняет в socks5.txt в формате ip:port.
-
-Установка:  pip install requests
-Запуск:     python socks5_parser.py
-"""
-
 import os
 import re
 import socket
@@ -74,7 +64,7 @@ def save(proxies: list[str]) -> None:
     tmp = OUTPUT_FILE + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(proxies))
-    os.replace(tmp, OUTPUT_FILE)  # атомарная замена файла
+    os.replace(tmp, OUTPUT_FILE)
 
 
 def update() -> None:
