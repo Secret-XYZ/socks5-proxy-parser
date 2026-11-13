@@ -1,4 +1,4 @@
-[14.11.2026 2:22] shqcc | design • coding: <div align="center">
+[14.11.2026 2:25] shqcc | design • coding: <div align="center">
 
 # 🧦 SOCKS5 Parser
 
@@ -74,13 +74,12 @@ SOURCES = [
 
 ## 🔍 Как это работает
 
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│  Скачивание  │ →  │ Извлечение   │ →  │  Проверка    │ →  │  Сохранение  │
-│  источников  │    │ ip:port +    │    │  порта (TCP) │    │ в socks5.txt │
-│              │    │ дедупликация │    │              │    │              │
-└──────────────┘    └──────────────┘    └──────────────┘    └──────┬───────┘
-        ▲                                                          │
-        └─────────────────── пауза 15 минут ◄──────────────────────┘
+1. 🌐 Скачивание — загружаются списки из всех источников
+2. 🧹 Извлечение — из текста достаются адреса ip:port, дубли удаляются
+3. ⚡ Проверка — многопоточная проверка открытого порта
+4. 💾 Сохранение — живые прокси записываются в socks5.txt
+5. ⏳ Пауза 15 минут — и всё повторяется заново
+
 ---
 
 ## ⏱ Скорость
@@ -98,17 +97,22 @@ SOURCES = [
 
 ## 🐳 Запуск в Docker (по желанию)
 
-Dockerfile
+### Dockerfile
 
+~~~dockerfile
 FROM python:3.12-slim
 WORKDIR /app
 RUN pip install --no-cache-dir requests
 COPY socks5_parser.py .
 CMD ["python", "-u", "socks5_parser.py"]
-```bash
+~~~
+
+### Сборка и запуск
+
+~~~bash
 docker build -t socks5-parser .
 docker run -d --name socks5-parser -v $(pwd):/app --restart=unless-stopped socks5-parser
-`
+~~~
 
 ---
 
@@ -122,8 +126,7 @@ docker run -d --name socks5-parser -v $(pwd):/app --restart=unless-stopped socks
 ---
 
 ## 🛠 Решение проблем
-
-| Проблема | Решение |
+[14.11.2026 2:25] shqcc | design • coding: | Проблема | Решение |
 |----------|---------|
 | Too many open files | Уменьши CHECK_THREADS (например, до 100) |
 | Файл пустой | Проверь интернет или отключи CHECK_ALIVE |
